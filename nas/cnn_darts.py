@@ -16,8 +16,9 @@ from ray.tune import Trainable
 from ray.tune.logger import Logger
 from ray.tune.schedulers import AsyncHyperBandScheduler, PopulationBasedTraining
 
-from nas.data import get_image_data_loaders
-from nas.arch import *
+# DARTS imports
+from nas.darts.data import Image
+from nas.darts.arch import *
 from nas.darts.cnn import genotypes
 # from nas.darts.cnn.model import NetworkCIFAR, NetworkImageNet  # TODO: Make this work for ImageNet, MNIST
 from nas.darts.cnn.model_search import Network
@@ -56,7 +57,8 @@ class train_cnn(Trainable):
         args = config["args"]
         use_cuda = args.cuda and torch.cuda.is_available()
         self.device = torch.device("cuda" if use_cuda else "cpu")
-        self.train_loader, self.test_loader = get_image_data_loaders(args)
+        dataset = Image(args)
+        self.train_loader, self.test_loader = dataset.train, dataset.valid
         self.criterion = nn.CrossEntropyLoss()
         self.criterion.to(self.device)
         self.model = Network(36, 10, config["layers"], self.criterion, steps=4, multiplier=4, stem_multiplier=3)
@@ -93,8 +95,6 @@ class train_cnn(Trainable):
 
 def run_experiment(args):
 
-    setattr(args, "model_type", "cnn")
-
     if args.smoke_test:
         args.layers = 2
 
@@ -115,7 +115,7 @@ def run_experiment(args):
 
     analysis = tune.run(
         train_cnn,
-        name="exp",
+        name="darts",
         scheduler=sched,
         stop={
             "mean_accuracy": 0.95,
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     import sys
     sys.path.append("..")
 
-    parser = argparse.ArgumentParser(description="CNN NAS")
+    parser = argparse.ArgumentParser(description="DARTS: CNN NAS")
     parser.add_argument("--smoke-test", default=False, action="store_true", help="Finish quickly for testing")
     parser.add_argument("--layers", default=20, type=int, help="Number of layers in model")
     parser.add_argument("--ray-address", default=None, help="Address of Ray cluster for seamless distributed execution.")
