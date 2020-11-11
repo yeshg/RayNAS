@@ -1,42 +1,74 @@
-PBT-NAS
+Ray-NAS
 =======
 
-Library for running NAS with the distributed machine learning framework [Ray](https://docs.ray.io/en/latest/).
+Scaling and Distributing Neural Architecture Search (NAS) Algorithms with the distributed machine learning framework [Ray](https://docs.ray.io/en/latest/).
+
+## Algorithms
+
+- DARTS
+  - [uses official pytorch implementation](https://github.com/quark0/darts)
+  - CNN only
+- ENAS
+  - [uses unofficial pytorch reimplimentation](https://github.com/carpedm20/ENAS-pytorch)
+  - RNN only
+- Random NAS
+  - Same search space as ENAS, no RNN controller
+  - CNN only
 
 ## Running experiments
 
-### Basics
-Can search for CNN and RNN architectures from the same entry-point.
+### 1. Basics
+Can search for CNN and RNN architectures from the same entry-point: `main.py`
 
-To search for CNN architecture for cifar10,
+First choose algorithm from `darts`, `enas`, or `random`, which correspond to differentiable architecture search, efficient neural architecture search, and a simple random sample based approach which simplifies NAS to hyperparameter tuning.
+
+To search for CNN architecture for cifar10 with DARTS,
 
 ```bash
-python main.py cnn --dataset cifar10 --layers 20 --cuda
+python main.py darts cnn --dataset cifar10 --layers 4 --cuda
 ```
 
-### Logging details / Monitoring live training progress
+To search for RNN architecture for ptb with ENAS,
+
+```bash
+python main.py enas rnn --dataset ptb --num_blocks 4 --cuda
+```
+
+To search for CNN architecture for cifar10 with simple random NAS,
+
+```bash
+python main.py random cnn --dataset cifar10 --cuda
+```
+
+### 2. Logging details / Monitoring live training progress
+
 Monitor runs in ray dashboard, or by launching tensorboard in the experiment directory created by Ray Tune:
 
 ```bash
 tensorboard --logdir="~/ray_results/exp/"
 ```
 
-### Visualizing Searched Architectures
+### 3. Visualizing Searched Architectures
+
 Find the location of the run which generated the desired architecture and run the entry-point in visualize mode:
 
 ```bash
 python main.py viz --load <path_to_trial> --viz
 ```
 
+### General Arguments for All NAS algorithms
+
+TBD
+
 ### To Do
-- [ ] Verify checkpointing on experiments across multiple GPUs
-- [ ] Extend to image datasets other than cifar10
-- [ ] Create `nas.rnn_nas` module as entry point for RNN model search
-
-
-## Acknowledgements
-
-NAS Algorithm used here is a fork of DARTS (Differentiable Architecture Search):
-- [paper](https://arxiv.org/abs/1806.09055)
-- [official code](https://github.com/quark0/darts)
+- [ ] DARTS
+  - [ ] RNN implementation
+  - [ ] Results
+- [ ] ENAS
+  - [ ] CNN implementation
+  - [ ] Results
+- [ ] RandomNAS
+  - [ ] Search Space expansion for CNN
+  - [ ] RNN implementation
+  - [ ] Results
 
