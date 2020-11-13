@@ -1,2 +1,2 @@
-import data.text
-import data.image
+from enas.data.text import *
+from enas.data.image import *

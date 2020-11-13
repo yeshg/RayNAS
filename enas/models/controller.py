@@ -5,8 +5,8 @@ import os
 import torch
 import torch.nn.functional as F
 
-import nas.enas.utils as utils
-from nas.enas.utils import Node
+import enas.utils as utils
+from enas.utils import Node
 
 
 def _construct_dags(prev_nodes, activations, func_names, num_blocks):

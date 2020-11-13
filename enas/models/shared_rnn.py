@@ -7,9 +7,9 @@ from torch import nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
-import nas.enas.models as models
-import nas.enas.models.shared_base as shared_base
-import nas.enas.utils as utils
+import enas.models as models
+import enas.models.shared_base as shared_base
+import enas.utils as utils
 
 
 logger = utils.get_logger()

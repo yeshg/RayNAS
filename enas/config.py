@@ -1,5 +1,5 @@
 import argparse
-from nas.enas.utils import get_logger
+from enas.utils import get_logger
 
 # logger = get_logger()
 

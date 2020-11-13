@@ -22,7 +22,7 @@ from ray.tune.schedulers import AsyncHyperBandScheduler, PopulationBasedTraining
 import math
 import scipy.signal
 import glob
-from data import Corpus
+from enas.data import Corpus
 import enas.config
 import enas.utils as utils
 import enas.models as models
@@ -712,7 +712,7 @@ class Trainer(Trainable):
 
 def run_experiment(main_args):
 
-    args, unparsed = nas.enas.config.get_args()
+    args, unparsed = enas.config.get_args()
 
     args.num_blocks = main_args.num_blocks
     args.data_path = main_args.data_path

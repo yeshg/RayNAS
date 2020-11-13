@@ -3,8 +3,8 @@ import torch
 import copy
 from torch.autograd import Variable
 
-from nas.darts.cnn import genotypes
-from nas.darts.cnn.model_search import Network
+from darts.cnn import genotypes
+from darts.cnn.model_search import Network
 
 def sample_arch(steps):
     k = sum(1 for i in range(steps) for n in range(2+i))

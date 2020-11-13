@@ -6,8 +6,8 @@ from torch import nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
-from nas.enas.models.shared_base import *
-from nas.enas.utils import get_logger, get_variable, keydefaultdict
+from enas.models.shared_base import *
+from enas.utils import get_logger, get_variable, keydefaultdict
 
 logger = get_logger()
 
