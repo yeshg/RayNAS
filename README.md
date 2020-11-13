@@ -25,13 +25,13 @@ First choose algorithm from `darts`, `enas`, or `random`, which correspond to di
 To search for CNN architecture for cifar10 with DARTS,
 
 ```bash
-python main.py darts cnn --dataset cifar10 --layers 4 --cuda
+python main.py darts cnn --dataset cifar10 --layers 2 --cuda
 ```
 
 To search for RNN architecture for ptb with ENAS,
 
 ```bash
-python main.py enas rnn --dataset ptb --num_blocks 4 --cuda
+python main.py enas rnn --num_blocks 4 --cuda
 ```
 
 To search for CNN architecture for cifar10 with simple random NAS,
